@@ -1,11 +1,17 @@
 #!/bin/bash
 set -Eeuo pipefail
 echo
-echo "NOTE: run the public script as your normal sudo-capable administrator, not using sudo ./script.sh. The script already uses sudo for package installation. Running the whole script as root would put the SSH configuration and keys under root's home directory instead of your administrator account."
 echo
-echo "This script is intended ONLY for a fresh Ubuntu image - Don't continue if you have existing SSH configuration."
+if [[ "$EUID" -eq 0 ]]; then
+    echo "ERROR: Run this script as your normal sudo-capable administrator, not as root or using sudo."
+    exit 1
+fi
 echo
-echo "Existing SSH config will be overwritten."
+echo "This script is intended ONLY for fresh Ubuntu images."
+echo "It installs Git and OpenSSH-Client, and configures ssh/config git over port 443."
+echo
+echo "Existing ~/.ssh/config will be overwritten."
+echo "An existing ~/.ssh/id_ed25519 key may also trigger an overwrite prompt."
 echo
 echo "If you wish to continue, press ENTER. Otherwise CTRL+C"
 echo
@@ -44,15 +50,14 @@ echo "Generating SSH Key..."
 echo
 ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519
 echo
-echo "Please copy this SSH Key to GitHub, and press ENTER twice to continue: "
+echo "Please copy this SSH Key to GitHub:  "
 echo
 echo "https://github.com/settings/ssh/new"
 echo
 cat ~/.ssh/id_ed25519.pub
 echo
 echo
-read -e
-read -e
+read -r -p "Press ENTER once you have added the public key to GitHub: "
 echo
 echo
 echo "Testing authentication..."
