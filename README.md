@@ -6,7 +6,9 @@ I find this useful when provisioning a fresh node or performing node repaving, w
 
 Note: This is intended only for fresh Ubuntu instances. Existing SSH configuration may be changed, and existing SSH keys may trigger overwrite prompts.
 
-# 01-setup-sshd.sh
+Run the scripts in order -
+
+### 01-setup-sshd.sh
 
 Sets up SSHd on the Ubuntu node.
 
@@ -16,7 +18,16 @@ Sets up SSHd on the Ubuntu node.
 - Validates the SSH config before applying it
 - Enables and restarts the SSH service
 
-# 02-setup-github.sh
+Configure inbound SSH access (run as root or using sudo):
+
+```bash
+chmod +x 01-setup-sshd.sh
+sudo ./01-setup-sshd.sh
+```
+
+Connect to the node over the chosen SSH port and verify access before closing your console session.
+
+### 02-setup-github.sh
 
 Sets up outbound GitHub SSH access and clones a repo.
 
@@ -27,18 +38,7 @@ Sets up outbound GitHub SSH access and clones a repo.
 - Prompts for a GitHub repository in OWNER/REPO.git format and clones it locally
 - Usage
 
-Run the scripts in order
-
-1. Configure inbound SSH access (run as root or using sudo):
-
-```bash
-chmod +x 01-setup-sshd.sh
-sudo ./01-setup-sshd.sh
-```
-
-Connect to the node over the chosen SSH port and verify access before closing your console session.
-
-2. Configure GitHub access (run as your normal sudo-capable administrator, not as root):
+Configure GitHub access (run as your normal sudo-capable administrator, not as root):
 
 ```bash
 chmod +x 02-setup-github.sh
