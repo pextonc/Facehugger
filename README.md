@@ -36,7 +36,6 @@ Sets up outbound GitHub SSH access and clones a repo.
 - Generates an Ed25519 SSH key and provides instructions for adding it to GitHub
 - Tests SSH auth before proceeding
 - Prompts for a GitHub repository in OWNER/REPO.git format and clones it locally
-- Usage
 
 Configure GitHub access (run as your normal sudo-capable administrator, not as root):
 
