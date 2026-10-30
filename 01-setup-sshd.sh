@@ -23,6 +23,10 @@ echo
 echo "OpenSSH version:"
 sshd -V 2>&1 || true
 echo
+echo
+echo "Preparing SSH runtime directory..."
+install -d -m 0755 -o root -g root /run/sshd
+echo
 read -r -p "Enter new SSH port (1-65535): " SSH_PORT
 if [[ ! "$SSH_PORT" =~ ^[0-9]+$ ]] ||
    (( 10#$SSH_PORT < 1 || 10#$SSH_PORT > 65535 )); then
